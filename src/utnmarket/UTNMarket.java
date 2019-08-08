@@ -9,6 +9,8 @@ package utnmarket;
  *
  * @author Gabriel
  */
+
+
 public class UTNMarket {
 
     /**
@@ -17,5 +19,4 @@ public class UTNMarket {
     public static void main(String[] args) {
         // TODO code application logic here
     }
-    
 }

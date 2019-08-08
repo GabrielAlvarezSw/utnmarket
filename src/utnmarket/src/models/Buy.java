@@ -76,6 +76,7 @@ public class Buy {
        payMethod = "tarjeta";
        card = card;
     }
+    
     //se elimina la tarjeta, por ejemplo, para pagar en efectivo.
     public void removeCard() throws IllegalTransactionException{
         if(card == null){
