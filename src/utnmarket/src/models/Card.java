@@ -4,6 +4,7 @@
  */
 package utnmarket.src.models;
 
+import exceptions.IllegalTransactionException;
 import java.util.Date;
 
 /**
@@ -25,18 +26,18 @@ public class Card {
    //METODOS
     
    //Verificar que los digitos ingresados sean 16
-   public static Boolean verificarCantDigitos (String number){
+   public static Boolean verificarCantDigitos (String number) throws IllegalTransactionException{
+       
        if (number.length() == 16){
            return true;
        }else {
            System.out.print("La cantidad de digitos ingresados es incorrecto.");
            return false;
        }
-   
-   }
+    }
    
    //Verificar que los digitos ingreados sean enteros
-   public static Boolean isNumeric (String number){
+   public static Boolean isNumeric (String number) throws IllegalTransactionException{
     
      for(int i = 0; i<number.length(); i++)
         if( !Character.isDigit(number.charAt(i)) ){
@@ -45,12 +46,6 @@ public class Card {
     return true;
  }
    
-    
-
-   
-
- 
-  
 }
    
   

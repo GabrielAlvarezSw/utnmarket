@@ -5,6 +5,7 @@
  */
 package utnmarket.src.models;
 
+import exceptions.IllegalTransactionException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -41,7 +42,7 @@ public class CardTest {
      * Test of verificarCantDigitos method, of class Card.
      */
     @Test
-    public void testVerificarCantDigitos() {
+    public void testVerificarCantDigitos() throws IllegalTransactionException {
         System.out.println("verificarCantDigitos");
         String number = "1234567891011121";
         Boolean expResult = true;
@@ -55,7 +56,7 @@ public class CardTest {
      * Test of isNumeric method, of class Card.
      */
     @Test
-    public void testIsNumeric() {
+    public void testIsNumeric() throws IllegalTransactionException {
         System.out.println("isNumeric");
         String number = "1234567891011121";
         Boolean expResult = true;
