@@ -15,12 +15,12 @@ package utnmarket.src.models;
 public class BuyDetail {
     public Product product;
     public int qty;
-    public int subtotal;    
+    public float subtotal;    
     
-    public BuyDetail(Product product, int qty, int total){
+    public BuyDetail(Product product, int qty){
         this.product = product;
         this.qty = qty;
-        this.subtotal = total;
+        this.subtotal = product.price * qty;
     }
     
 }

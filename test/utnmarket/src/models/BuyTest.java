@@ -5,6 +5,7 @@
  */
 package utnmarket.src.models;
 
+import junit.framework.Assert;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,12 +44,36 @@ public class BuyTest {
     @Test
     public void testCreateFromCart() throws Exception {
         System.out.println("createFromCart");
-        Cart cart = null;
-        Buy expResult = null;
+        
+        
+        Cart cart = new Cart();
+        Product p1 = new Product("p1",2);
+        Product p2 = new Product("p2",1);
+        cart.addProduct(p1, 1);
+        cart.addProduct(p1,1);
+        cart.addProduct(p2, 1);
+        Buy expResult = new Buy();
+        expResult.details.add(new BuyDetail(p1,2));
+        expResult.details.add(new BuyDetail(p2,1));
+        
+        
         Buy result = Buy.createFromCart(cart);
-        assertEquals(expResult, result);
+       // Assert.assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(expResult.details.size(), result.details.size());
+        int eqs = 0;
+        for(int i=0; i<result.details.size(); i++){
+           BuyDetail detailA = result.details.get(i);
+           for(int j=0; j<expResult.details.size(); j++){
+               BuyDetail detailB = expResult.details.get(j);
+               if(detailB.product.name.equals(detailA.product.name)
+                       && detailB.qty == detailA.qty){
+                   eqs++;
+               }
+           }
+        }
+        assertEquals(eqs, result.details.size());
+        
     }
 
     /**
@@ -57,17 +82,19 @@ public class BuyTest {
     @Test
     public void testGetTotal() {
         System.out.println("getTotal");
-        Buy instance = null;
-        int expResult = 0;
-        int result = instance.getTotal();
-        assertEquals(expResult, result);
+        Buy instance = new Buy();
+        instance.details.add(new BuyDetail(new Product("p1",2),1));
+        instance.details.add(new BuyDetail(new Product("p2",2),1));
+        float  expResult = 4;
+        
+        float result = instance.getTotal();
+        assertEquals(expResult, result,0.01);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-
+    /*
     /**
      * Test of setCard method, of class Buy.
-     */
+     
     @Test
     public void testSetCard() throws Exception {
         System.out.println("setCard");
@@ -80,7 +107,7 @@ public class BuyTest {
 
     /**
      * Test of removeCard method, of class Buy.
-     */
+     
     @Test
     public void testRemoveCard() throws Exception {
         System.out.println("removeCard");
@@ -96,22 +123,43 @@ public class BuyTest {
     @Test
     public void testAccept() {
         System.out.println("accept");
-        Buy instance = null;
+        Buy instance = new Buy();
         instance.accept();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-
+    @Test(expected = IllegalStateException.class)
+    public void testAceptFromRejected(){
+        System.out.println("accept from  rejected");
+        Buy instance = new Buy();
+        instance.state = Buy.State.RECHAZADO;
+        instance.accept();
+    }
+    @Test(expected = IllegalStateException.class)
+    public void testAceptFromAccepted(){
+        System.out.println("accept from  accepted");
+        Buy instance = new Buy();
+        instance.state = Buy.State.ACEPTADO;
+        instance.accept();
+    }
+    @Test(expected = IllegalStateException.class)
+    public void testAceptFromPaid(){
+        System.out.println("accept from  paid");
+        Buy instance = new Buy();
+        instance.state = Buy.State.PAGADO;
+        instance.accept();
+    }
+    
+    
     /**
      * Test of decline method, of class Buy.
      */
     @Test
     public void testDecline() {
         System.out.println("decline");
-        Buy instance = null;
+        Buy instance = new Buy();
+       
         instance.decline();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -120,10 +168,10 @@ public class BuyTest {
     @Test
     public void testPay() {
         System.out.println("pay");
-        Buy instance = null;
+        Buy instance = new Buy();
+        instance.state = Buy.State.ACEPTADO;
         instance.pay();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

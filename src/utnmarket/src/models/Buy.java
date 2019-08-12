@@ -29,13 +29,12 @@ public class Buy {
     public Client client;
     public Buy.State state;
     
-    //Hago el constructor privado para poder generar un metodo estatico , createFromCart,
-    //factoría. La unica forma de instanciar una compra, es con un carrito, invocando a
-    // Buy.createFromCart(cart)
-    private Buy(){
+    
+    public Buy(){
        this.state = State.PENDIENTE;    //por defecto arranca en pendiente.
        this.payMethod = "efectivo";     //metodo de pago por defecto es efectivo
        this.details= new ArrayList<>();
+       this.client = null;
        
     }
     //Le paso un carrito como parametro, hace el checkout e instanciaa compra.
@@ -47,8 +46,7 @@ public class Buy {
         //Por cada producto en el hashmap genero un detalle.
         for(Product p : products.keySet()){
             int cantidad = products.get(p);
-            int total = p.price* cantidad;
-            BuyDetail detail= new BuyDetail(p,cantidad,total);
+            BuyDetail detail= new BuyDetail(p,cantidad);
             buy.details.add(detail);
         }
        
@@ -56,8 +54,8 @@ public class Buy {
         
     }
     //Devuelve la suma de todos los productos.
-    public int getTotal(){
-       int sum = 0;
+    public float  getTotal(){
+       float  sum = 0;
         for(BuyDetail detail : details){
            sum += detail.subtotal;
        }
@@ -87,16 +85,26 @@ public class Buy {
     }
     
     //El cliente confirma la compra.
-    public void accept(){
-       throw new NotImplementedException();
+    public void accept() throws IllegalStateException{
+       if(state != State.PENDIENTE){
+           throw new IllegalStateException("La compra ya fue aceptada o rechazada");
+       }
+       state  = State.ACEPTADO;
+       
     }
     //El cliente rechaza la compra
-    public void decline(){
-        throw new NotImplementedException();
+    public void decline()throws IllegalStateException{
+        if(state != State.PENDIENTE){
+            throw new IllegalStateException("La compra ya fue aceptada o rechazada");
+        }
+        state = State.RECHAZADO;
     }
     //El cliente paga la compra.
     public void pay(){
-      throw new NotImplementedException();
+        if(state != State.ACEPTADO){
+            throw new IllegalStateException();
+        }
+        state = State.PAGADO;
 
     }
     

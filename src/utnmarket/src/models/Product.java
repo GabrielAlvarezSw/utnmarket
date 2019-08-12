@@ -10,7 +10,12 @@ package utnmarket.src.models;
  * @author Gabriel
  */
 public class Product {
-    public int price;
+    public float price;
     public String name;
+    
+    public Product(String name, float price){
+        this.price= price;
+        this.name = name;
+    }
     
 }

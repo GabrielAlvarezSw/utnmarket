@@ -20,8 +20,18 @@ public class Cart {
     private  HashMap<Product, Integer> products;
     public Client client;
     
+    public Cart(){
+        products = new HashMap<>();
+        this.client = null;
+    }
+    
     public void addProduct(Product product, int qty){
-        throw new NotImplementedException();
+        if(products.containsKey(product)){
+            int prev = products.get(product);
+            products.put(product,prev+qty);
+        }else{
+            products.put(product, qty);
+        }
     }
     public void removeProduct(Product product, int qty){
         throw new NotImplementedException();
